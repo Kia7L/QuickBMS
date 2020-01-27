@@ -1,5 +1,5 @@
 ###7l
-# Compression
+# extraction
 
 string txt_java = 1
 get NAME fullname
@@ -8,61 +8,61 @@ string NAME >>= \
 string NAME != \
 strlen NAMESZ NAME
 
-xmath TMPSZ NAMESZ - txt_java
+xmath TMPSZ "NAMESZ - txt_java"
 math KEY1 = (..)*11
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY1 -= TMP
-next i -= -1
+next i += 1
 
-xmath TMPSZ NAMESZ - txt_java
+xmath TMPSZ "NAMESZ - txt_java"
 math KEY2 = -0x99
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY2 -= TMP
-next i -= -1
+next i += 1
 
-xmath TMPSZ NAMESZ - txt_java
+xmath TMPSZ "NAMESZ - txt_java"
 math KEY3 = -0x99
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY3 -= TMP
-next i -= -1
+next i += 1
 
-xmath TMPSZ NAMESZ - txt_java
+xmath TMPSZ "NAMESZ - txt_java"
 math KEY4 = -0x99
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY4 -= TMP
-next i -= -1
+next i += 1
 
-xmath TMPSZ NAMESZ - txt_java
+xmath TMPSZ "NAMESZ - txt_java"
 math KEY5 = -0x99
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY5 -= TMP
-next i -= -1
+next i += 1
 
-xmath TMPSZ NAMESZ - txt_java
+xmath TMPSZ "NAMESZ - txt_java"
 math KEY6 = -0x99
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY6 -= TMP
-next i -= -1
+next i += 1
 
-xmath TMPSZ NAMESZ - txt_java
+xmath TMPSZ "NAMESZ - txt_java"
 math KEY7 = -0x99
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY7 -= TMP
-next i -= -1
+next i += 1
 
-xmath TMPSZ NAMESZ - txt_java
+xmath TMPSZ "NAMESZ - txt_java"
 math KEY8 = (..)*11
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY8 -= TMP
-next i -= -1
+next i += 1
 
 math KEY1 &= 0xFF
 math KEY2 &= 0xFF
@@ -72,45 +72,37 @@ math KEY5 &= 0xFF
 math KEY6 &= 0xFF
 math KEY7 &= 0xFF
 math KEY8 &= 0xFF
-string TMP  p= "%d-%d-%d-%d-" KEY1 KEY2 KEY3 KEY4
+string TMP  p= "%d-%d-%d-%d" KEY1 KEY2 KEY3 KEY4
 string TMP2 p= "%d-%d-%d-%d" KEY5 KEY6 KEY7 KEY8
 string KEY  p= "%s%s" TMP TMP2
 
 print "KEY %NAME% -> %KEY%"
 
-# rebuilding
-set ACD_NAME string NAME
-get TMP filename
-string ACD_NAME += /
-string ACD_NAME += TMP
-string ACD_NAME += ".FILE"
+# extraction
 
-log MEMORY_FILE2 0 0
+get ACD_SIZE asize
 
-for
-    scandir "." NAME SIZE
-    if NAME == ""
-        break
-    endif
-    string NAME <<= 2   # remove .\
-    print "INPUT FILE: %NAME% %SIZE|x%"
+get DUMMY signed_long
+if DUMMY < 0
+    get DUMMY long
+else
+    goto 0
+endif
 
-    open "." NAME
+for ACD_OFF = 0 < ACD_SIZE
+    get NAMESZ long
+    getdstring NAME NAMESZ
+    get SIZE long
 
-    strlen NAMESZ NAME
-    put NAMESZ long MEMORY_FILE2
-    putdstring NAME NAMESZ MEMORY_FILE2
-    put SIZE long MEMORY_FILE2
-
-    encryption rot KEY "" 0
-    log MEMORY_FILE 0 SIZE
-    encryption "" ""
-
+    putvarchr MEMORY_FILE SIZE 0
+    log MEMORY_FILE 0 0
     for x = 0 < SIZE
-        getvarchr TMP MEMORY_FILE x
-        put TMP long MEMORY_FILE2
+        get TMP long
+        putvarchr MEMORY_FILE x TMP byte
     next x
-next
 
-get SIZE asize MEMORY_FILE2
-log ACD_NAME 0 SIZE MEMORY_FILE2
+    encryption rot KEY "" 1
+    log NAME 0 SIZE MEMORY_FILE
+    encryption "" ""
+    savepos ACD_OFF
+next

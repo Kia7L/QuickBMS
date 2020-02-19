@@ -1,5 +1,7 @@
-###7l
+#7L
 #CONSTRUCTION
+
+# 1 Java Standard..
 string txt_java = 1
 get NAME fullname
 string NAME l NAME
@@ -8,7 +10,8 @@ string NAME != \
 strlen NAMESZ NAME
 
 xmath TMPSZ NAMESZ - txt_java
-math KEY1 = (..)*11
+math KEY1 = (...)*9
+# Above Equals 27............
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY1 -= TMP
@@ -57,7 +60,7 @@ for i = 0 < TMPSZ
 next i += 1
 
 xmath TMPSZ NAMESZ - txt_java
-math KEY8 = (..)*11
+math KEY8 = (...)*9
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY8 -= TMP
@@ -86,6 +89,7 @@ get TMP filename
 string ACD_NAME += /
 string ACD_NAME += TMP
 string ACD_NAME += ".txt"
+#.................... Above Is File Type ..............
 
 log MEMORY_FILE2 0 0
 

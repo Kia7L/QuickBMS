@@ -2,7 +2,7 @@
 #CONSTRUCTION
 
 # 1 Java Standard..
-string txt_java = 1
+string txt_java = 2
 get NAME fullname
 string NAME l NAME
 string NAME >>= \
@@ -18,42 +18,42 @@ for i = 0 < TMPSZ
 next i += 1
 
 xmath TMPSZ NAMESZ - txt_java
-math KEY2 = -0x99
+math KEY2 = 0x0A
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY2 -= TMP
 next i += 1
 
 xmath TMPSZ NAMESZ - txt_java
-math KEY3 = -0x99
+math KEY3 = 0x0A
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY3 -= TMP
 next i += 1
 
 xmath TMPSZ NAMESZ - txt_java
-math KEY4 = -0x99
+math KEY4 = 0x0A
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY4 -= TMP
 next i += 1
 
 xmath TMPSZ NAMESZ - txt_java
-math KEY5 = -0x99
+math KEY5 = 0x0A
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY5 -= TMP
 next i += 1
 
 xmath TMPSZ NAMESZ - txt_java
-math KEY6 = -0x99
+math KEY6 = 0x0A
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY6 -= TMP
 next i += 1
 
 xmath TMPSZ NAMESZ - txt_java
-math KEY7 = -0x99
+math KEY7 = 0x0A
 for i = 0 < TMPSZ
     getvarchr TMP NAME i
     math KEY7 -= TMP
@@ -80,7 +80,7 @@ string KEY  p= "%s%s" TMP TMP2
 
 print "KEY %NAME% -> %KEY%"
 
-
+#......................................................
 # rebuilding
 # this is a rebuilding so there are no size limitations
 
@@ -88,7 +88,7 @@ set ACD_NAME string NAME
 get TMP filename
 string ACD_NAME += /
 string ACD_NAME += TMP
-string ACD_NAME += ".txt"
+string ACD_NAME += ".fx"
 #.................... Above Is File Type ..............
 
 log MEMORY_FILE2 0 0
